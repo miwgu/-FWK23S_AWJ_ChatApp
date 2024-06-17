@@ -61,14 +61,33 @@
     border-radius: 4px ;
 }
 
-.nav-text a:hover {
+
+  
+  .uLine-text {
+    position: relative;
+    font-size: 1.3rem;
+  }
+  
+  .uLine-text:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.3rem;
+    width: 0%;
+    height: 2px;
+    background: #6e00f4;
+    transition: all 0.7s;
+  }
+  
+  .nav-text:hover .uLine-text:after {
+    width: 100%;
+  }
+
+
+/*  .nav-text a:hover {
 background-color: #743db3;
 color: #f7bc64;
-}
-
-.nov-menu-items{
-    width:100%;
-}
+}  */
 
 .navbar-toggle {
     margin-top: 1rem;

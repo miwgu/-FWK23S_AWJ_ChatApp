@@ -42,15 +42,15 @@ const SideNav = () => {
 
             
                 <li className='nav-text'>
-                    <Link to='/login' >
+                    <Link to='/login'>
                         <IoMdLogIn />
-                        <span>Login</span>
+                        <span className='uLine-text'>Login</span>
                     </Link>
                 </li>
                 <li className='nav-text'>
                         <Link to='/register' >
                         <BiSolidPencil />
-                        <span>Register</span>
+                        <span className='uLine-text'>Register</span>
                     </Link>
 
                 </li>
