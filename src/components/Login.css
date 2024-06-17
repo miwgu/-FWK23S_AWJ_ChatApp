@@ -1,7 +1,33 @@
 .login_bg{
-     height: 100vh;
+    height: 100vh;
     width: 100vw; 
-     background-image: url('../assets/login_Ballon.jpg'); 
+    background-image: url('../assets/login_Ballon.jpg'); 
     background-size: cover;
     background-position: center;
 }
+
+/* Ensure the form is centered */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: rgb(246, 242, 242);
+    opacity: 0.9;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  /* Ensure labels are left-aligned */
+  .left-label {
+    text-align: left !important;
+  }
+
+
+  .center-content {
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

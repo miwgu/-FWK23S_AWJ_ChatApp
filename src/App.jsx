@@ -1,5 +1,5 @@
 
-//import { Routes, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login'
 import Chat from './components/Chat'
