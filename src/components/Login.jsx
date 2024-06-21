@@ -18,7 +18,7 @@ const Login = () => {
           <Form.Control 
             className='bg-primary'
             type="text"
-            placeholder="Enter username"
+            placeholder="Enter Username"
             /* value={username} */
             /* onChange={(e) => setUsername(e.target.value)} */ />
         </Form.Group>
