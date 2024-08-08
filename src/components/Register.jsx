@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useCookies} from 'react-cookie';
-import './Register.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
+import DOMPurify from 'dompurify';
+import './Register.css'
 
 /**
  * npm i react-cookie axios dompurify
@@ -49,7 +50,8 @@ const Register = () => {
       console.log('Registration successful!:', res.data);
     })
     .catch(error=>{
-      console.error('Error! registering user:', error);
+      const sanitizedErrorMessage = DOMPurify.sanitize(error.res ? error.res.data : error.message);
+      console.error('Error! registering user:', sanitizedErrorMessage);
     });
    };
 
