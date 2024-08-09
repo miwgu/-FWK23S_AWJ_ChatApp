@@ -35,9 +35,16 @@ const Register = () => {
     });
    }, [setCookie]);
 
+
    const handleSubmit =(e) =>{
     e.preventDefault();
     console.log('Form submitted');
+  
+    if(!avatar){
+      alert("You need to choose an avatar!")
+      return;
+    }
+      
 
     axios.post('https://chatify-api.up.railway.app/auth/register', {
       username,
@@ -106,8 +113,13 @@ const Register = () => {
       
         <div>
           <h5>Selected Avatar:</h5>
+          { avatar ? (
           <img src={avatar} alt="Selected Avatar" style={{ width: '100px', height: '100px' }} />
-        </div>
+          ):(
+            <p style={{color: '#ff0066'}}>You need to choose an avatar!</p>
+          )
+        }
+          </div>
       
     
            <div className='center-content'>
