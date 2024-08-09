@@ -21,6 +21,13 @@ const Register = () => {
    const[csrfToken, setCsrfToken]= useState('');
    const[cookies, setCookie]= useCookies(['CSRF-TOKEN']);
 
+   const [errors, setErrors]= useState({
+   username: '',
+   email: '',
+   password: '',
+   avatar: '',
+   });
+
    useEffect(()=>{
     console.log('Fetching CSRF token...');
     axios.patch('https://chatify-api.up.railway.app/csrf')
@@ -39,9 +46,30 @@ const Register = () => {
    const handleSubmit =(e) =>{
     e.preventDefault();
     console.log('Form submitted');
+
+    let hasErrors =false;
+    let formErrors = {};
   
+    if(!username){
+      formErrors.username= "Username is required";
+      hasErrors = true;
+    }
+    if(!email){
+      formErrors.email= "Email is required";
+      hasErrors = true;
+    }
+    if(!password){
+      formErrors.password= "Password is required";
+      hasErrors = true;
+    }
     if(!avatar){
-      alert("You need to choose an avatar!")
+      formErrors.avatar= "You need to choose an avatar";
+      hasErrors = true;
+    }
+
+    setErrors(formErrors);
+
+    if(hasErrors){
       return;
     }
       
@@ -57,7 +85,7 @@ const Register = () => {
       console.log('Registration successful!:', res.data);
     })
     .catch(error=>{
-      const sanitizedErrorMessage = DOMPurify.sanitize(error.res ? error.res.data : error.message);
+      const sanitizedErrorMessage = DOMPurify.sanitize(error.response ? error.response.data : error.message);
       console.error('Error! registering user:', sanitizedErrorMessage);
     });
    };
@@ -76,6 +104,7 @@ const Register = () => {
                 placeholder="Enter Username"
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)} />
+              {errors.username && <p style={{ color: '#ff0066' }}>{errors.username}</p>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -86,6 +115,7 @@ const Register = () => {
                 placeholder="Enter E-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} />
+               {errors.email && <p style={{ color: '#ff0066' }}>{errors.email}</p>}
             </Form.Group>
     
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -96,6 +126,7 @@ const Register = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} />
+               {errors.password && <p style={{ color: '#ff0066' }}>{errors.password}</p>}
             </Form.Group>
 
             <DropdownButton id="dropdown-basic-button" title="Select an Avatar">
@@ -110,13 +141,15 @@ const Register = () => {
                 </Dropdown.Item>
         
             </DropdownButton>
+
+            {errors.avatar && <p style={{ color: '#ff0066' }}>{errors.avatar}</p>}
       
         <div>
           <h5>Selected Avatar:</h5>
           { avatar ? (
           <img src={avatar} alt="Selected Avatar" style={{ width: '100px', height: '100px' }} />
           ):(
-            <p style={{color: '#ff0066'}}>You need to choose an avatar!</p>
+            <p style={{color: '#ff0066'}}>Avatar not yet selected.</p>
           )
         }
           </div>
