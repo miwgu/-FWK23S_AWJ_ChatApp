@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.css'
 
 /**
@@ -83,6 +85,7 @@ const Register = () => {
     })
     .then(res=>{
       console.log('Registration successful!:', res.data);
+      toast.success(<div>Registration successful! 🎉</div>);
     })
     .catch(error=>{
 
@@ -105,7 +108,13 @@ const Register = () => {
 
       const sanitizedErrorMessage = DOMPurify.sanitize(error.response ? error.response.data : error.message);
       console.error('Error! registering user:', sanitizedErrorMessage);
-
+      toast.error(
+        <div>
+         <strong>Registration failed.</strong><br />
+         <div dangerouslySetInnerHTML={{ __html: sanitizedErrorMessage }} />
+         <p>Please refresh the page and try again.</p>
+        </div>
+      );
     }
 
      if(hasErrors){
@@ -187,6 +196,7 @@ const Register = () => {
             </div>
           </Form>
           </div>
+          <ToastContainer />
         </div>
       )
 }
