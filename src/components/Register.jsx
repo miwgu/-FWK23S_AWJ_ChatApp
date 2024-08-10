@@ -8,7 +8,7 @@ import DOMPurify from 'dompurify';
 import './Register.css'
 
 /**
- * npm i react-cookie axios dompurify
+ * npm i react-cookie axios dompurify  react-toastify
  * 
  */
 
@@ -45,7 +45,7 @@ const Register = () => {
 
    const handleSubmit =(e) =>{
     e.preventDefault();
-    console.log('Form submitted');
+    console.log('Try form submitted');
 
     let hasErrors =false;
     let formErrors = {};
@@ -70,7 +70,7 @@ const Register = () => {
     setErrors(formErrors);
 
     if(hasErrors){
-      return;
+      return;  //Client side error: Prevent submit
     }
       
 
@@ -85,8 +85,33 @@ const Register = () => {
       console.log('Registration successful!:', res.data);
     })
     .catch(error=>{
+
+    if (error.response && error.response.status === 400 ){
+      const serverErrorMessage = error.response.data.error;
+      const existMessage = "Username or email already exists"
+      if(serverErrorMessage === existMessage){
+
+        setErrors({
+          ...errors,
+          username: serverErrorMessage,
+          email: serverErrorMessage
+        
+        })
+        hasErrors = true;
+        
+      }
+
+    } else {
+
       const sanitizedErrorMessage = DOMPurify.sanitize(error.response ? error.response.data : error.message);
       console.error('Error! registering user:', sanitizedErrorMessage);
+
+    }
+
+     if(hasErrors){
+      return; // server side error : prevene submit
+    } 
+
     });
    };
 
