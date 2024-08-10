@@ -6,6 +6,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './Register.css'
 
@@ -29,6 +30,8 @@ const Register = () => {
    password: '',
    avatar: '',
    });
+
+   const navigate = useNavigate();
 
    useEffect(()=>{
     console.log('Fetching CSRF token...');
@@ -85,7 +88,11 @@ const Register = () => {
     })
     .then(res=>{
       console.log('Registration successful!:', res.data);
-      toast.success(<div>Registration successful! 🎉</div>);
+      toast.success(<div>Registration successful! 🎉✨</div>);
+    
+      setTimeout(()=>{
+        navigate('/login'); // Navigate to login page after 3 seconds
+      }, 3000);
     })
     .catch(error=>{
 
