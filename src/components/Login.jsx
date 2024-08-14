@@ -46,7 +46,7 @@ const Login = () => {
 
    const csrfToken = cookie['CSRF-TOKEN'];
 
-   axios.post('https://chatify-api.up.railway.app/auth/token', {
+   axios.post(import.meta.env.VITE_RAILWAY_URL + '/auth/token', {
      username,
      password,
      csrfToken
@@ -57,7 +57,7 @@ const Login = () => {
 
      localStorage.setItem('access_token', accessToken);
 
-     axios.get('https://chatify-api.up.railway.app/users',{
+     axios.get(import.meta.env.VITE_RAILWAY_URL + '/users',{
      headers: {
       Authorization: `Bearer ${accessToken}`
     }
@@ -97,7 +97,7 @@ const Login = () => {
 
     })
     .catch(error =>{
-      const errorMessage = error.response ? error.response.date.error : error.message;
+      const errorMessage = error.response ? error.response.data.error : error.message;
       toast.error(
         <div>
         <strong>Login failed.</strong><br />

@@ -35,7 +35,7 @@ const Register = () => {
 
    useEffect(()=>{
     console.log('Fetching CSRF token...');
-    axios.patch('https://chatify-api.up.railway.app/csrf')
+    axios.patch(import.meta.env.VITE_RAILWAY_URL + '/csrf')
     .then(res =>{
       const token = res.data.csrfToken;
       setCookie('CSRF-TOKEN', token, {path: '/'});
@@ -79,7 +79,7 @@ const Register = () => {
     }
       
 
-    axios.post('https://chatify-api.up.railway.app/auth/register', {
+    axios.post(import.meta.env.VITE_RAILWAY_URL + '/auth/register', {
       username,
       password,
       email,
