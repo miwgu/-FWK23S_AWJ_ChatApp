@@ -7,12 +7,18 @@ import { IoMdLogOut } from "react-icons/io";
 import {Link} from 'react-router-dom';
 import './SideNav.css';
 import {IconContext} from 'react-icons';
+import { useNavigate } from 'react-router-dom';
 import authService from '../../utils/authService';
 
 
 const SideNav = () => {
     const [sidebar, setSidebar]=useState(false)
     const showSidebar =() => setSidebar(!sidebar)
+    const navigate = useNavigate();
+
+    const handleLogout =() =>{
+        authService.signOut(()=>navigate('/'))
+    }
   return(
   <>
   <IconContext.Provider value={{color: '#c1c1c1'}}>
@@ -51,7 +57,7 @@ const SideNav = () => {
                     </Link>
                 </li>:
                 <li className='nav-text'>
-                <Link to='/'>
+                <Link to='/' onClick={handleLogout}>
                     <IoMdLogOut />
                     <span className='uLine-text'>Logout</span>
                 </Link>
