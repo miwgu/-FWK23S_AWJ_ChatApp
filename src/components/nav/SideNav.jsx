@@ -3,9 +3,11 @@ import * as FaIcons from "react-icons/fa";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { BiSolidPencil } from "react-icons/bi";
 import { IoMdLogIn } from "react-icons/io";
+import { IoMdLogOut } from "react-icons/io";
 import {Link} from 'react-router-dom';
 import './SideNav.css';
 import {IconContext} from 'react-icons';
+import authService from '../../utils/authService';
 
 
 const SideNav = () => {
@@ -41,19 +43,30 @@ const SideNav = () => {
             })} */}
 
             
-                <li className='nav-text'>
+               {!authService.isAuthenticated ?
+               <li className='nav-text'>
                     <Link to='/login'>
                         <IoMdLogIn />
                         <span className='uLine-text'>Login</span>
                     </Link>
-                </li>
+                </li>:
+                <li className='nav-text'>
+                <Link to='/'>
+                    <IoMdLogOut />
+                    <span className='uLine-text'>Logout</span>
+                </Link>
+                </li>}
+
+                {!authService.isAuthenticated ? 
                 <li className='nav-text'>
                         <Link to='/register' >
                         <BiSolidPencil />
                         <span className='uLine-text'>Register</span>
                     </Link>
 
-                </li>
+                </li>:
+                null}
+
             
         </ul>
     </nav>
