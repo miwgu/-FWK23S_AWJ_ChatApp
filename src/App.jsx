@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Chat from './components/Chat'
 import Register from './components/Register'
 import SideNav from './components/nav/SideNav'
+import ProtectedRoute from './utils/ProtectedRoute';
 import './App.css'
 
 function App() {
