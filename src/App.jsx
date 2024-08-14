@@ -18,9 +18,9 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
 
-        {/* <Route element={<ProtectedRouth />}> */}
+        <Route element={<ProtectedRoute />}> 
           <Route path='/chat' element={<Chat/>} />
-        {/* </Route> */}
+        </Route>
         
       </Routes>
       </Router>
