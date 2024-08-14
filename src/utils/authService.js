@@ -10,7 +10,7 @@ const authService ={
     signIn(callback){
         authService.isAuthenticated =true;
         localStorage.setItem('isAuthenticated', true);
-        setTimeout(callback, 300);
+        setTimeout(callback, 3000);
     },
 
     signOut(callback){
@@ -24,7 +24,7 @@ const authService ={
         //change status
         localStorage.setItem('isAuthenticated', 'false');
 
-        setTimeout(callback,300);
+        setTimeout(callback,3000);
     },
 
     // this is return true (if isAuthenticated is same as true) or false

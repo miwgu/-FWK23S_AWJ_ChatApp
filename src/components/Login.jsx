@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 //import { useNavigate, useLocation } from 'react-router-dom';
-//import fakeAuth from '../utils/fakeAuth';
+import authService from '../utils/authService';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 //import Spinner from 'react-bootstrap/Spinner';
@@ -19,7 +19,7 @@ const Login = () => {
   useEffect(()=>{
     console.log('Fetching CSRF token...');
 
-    axios.patch('https://chatify-api.up.railway.app/csrf')
+    axios.patch(import.meta.env.VITE_RAILWAY_URL + '/csrf')
     .then(res => {
       const token = res.data.csrfToken;
 
@@ -77,9 +77,10 @@ const Login = () => {
         <div>Login successful!</div>
       );
 
-      setTimeout(()=>{
+      /* setTimeout(()=>{
         navigate('/chat'); // Navigate to login page after 3 seconds
-      }, 3000);
+      }, 3000); */
+      authService.signIn(() =>navigate('/chat'))
 
     } else {
       console.error('User not found!')
