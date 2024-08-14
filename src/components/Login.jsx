@@ -100,11 +100,11 @@ const Login = () => {
       const errorMessage = error.response ? error.response.data.error : error.message;
       toast.error(
         <div>
-        <strong>Login failed.</strong><br />
+        <strong>Login failed</strong><br />
         <div>{errorMessage}</div>
         </div>
       );
-      console.error('Error during login (generate token):', errorMessage)
+      console.error('Error during login (Error cannot generate token):', errorMessage)
 
     })
    
