@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Chat.css';
 import { Container } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import { PiTrashDuotone } from "react-icons/pi";
 
 const Chat = () => {
 
@@ -71,6 +73,24 @@ const Chat = () => {
     getMessages();
   }, []);
 
+  const handleDeleteMessage = async (msgId) =>{
+   try{
+    const accessToken = localStorage.getItem('access_token');
+    await axios.delete(import.meta.env.VITE_RAILWAY_URL + '/messages/{msgId}' ,{
+      headers :{
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    // Filter and save remaining messages except deleted messages
+      setMessages ((prevMessages) => prevMessages.filter ((m)=> m.id !==msgId))
+
+   } catch (error){
+    console.error('Error deleting message:', error);
+
+   }
+  }
+
   const isLoggedInUser = (userId) => userId === loggedInUserId;
   console.log(loggedInUserId)
   
@@ -100,6 +120,12 @@ const Chat = () => {
             )}
             <Container className={`text ${isLoggedInUser(message.userId) ? 'right' : 'left'}`}>
               {message.text}
+
+              {isLoggedInUser(message.userId) && ( 
+                <Link to ="#" className='delete-icon' onClick={() => handleDeleteMessage(message.id)}>
+                <PiTrashDuotone />
+                </Link>
+              )}
             </Container>
           </div>
         ))}
