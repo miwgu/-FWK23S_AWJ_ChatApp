@@ -2,7 +2,8 @@
     background-color: #3e4049;
     height: 100px;
     display: flex;
-    justify-content:start;
+    justify-content:space-between;
+    /* justify-content:start; */
     align-items:center;
     position: fixed;
     top: 0;
@@ -103,4 +104,24 @@ color: #f7bc64;
 
 span {
     margin-left: 16px;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .username {
+    margin-right: 10px;
+    color: #fff;
+    margin-right: 1rem;
+  }
+  
+  /*Make the avatar's shape circular*/
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 2rem;
   }

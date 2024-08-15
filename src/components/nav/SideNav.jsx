@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as FaIcons from "react-icons/fa";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { BiSolidPencil } from "react-icons/bi";
@@ -12,13 +12,53 @@ import authService from '../../utils/authService';
 
 
 const SideNav = () => {
-    const [sidebar, setSidebar]=useState(false)
-    const showSidebar =() => setSidebar(!sidebar)
+    const [sidebar, setSidebar]=useState(false);
+    const [isAuth, setIsAuth]= useState(false);
+    const [username, setUsername] = useState('');
+    const [avatar, setAvatar] = useState('');
+    
     const navigate = useNavigate();
 
+    const showSidebar =() => setSidebar(!sidebar)
+
+
+    const syncAuthState=()=>{
+        
+            const loggedInAuthStatus = localStorage.getItem('isAuthenticated') ;
+            const loggedInUsername = localStorage.getItem('username');
+            const loggedInAvatar = localStorage.getItem('avatar');
+            
+            setIsAuth(loggedInAuthStatus);
+
+            if(loggedInAuthStatus){
+            setUsername(loggedInUsername || '');
+            setAvatar(loggedInAvatar || '');
+            } else {
+                setUsername('');
+                setAvatar('');
+            }
+    };
+
+    useEffect(()=>{
+        syncAuthState();
+    }, []);
+
     const handleLogout =() =>{
-        authService.signOut(()=>navigate('/'))
-    }
+        authService.signOut(()=>{
+            //remove all items from localStrage 
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('username');
+            localStorage.removeItem('avatar');
+            localStorage.removeItem('isAuthenticated');
+            //This flag refreshes chat.jsx one time when user login
+            localStorage.removeItem('hasRefreshed');
+
+            syncAuthState();//Reset state
+            navigate('/')
+        })
+    };
+
   return(
   <>
   <IconContext.Provider value={{color: '#c1c1c1'}}>
@@ -26,9 +66,15 @@ const SideNav = () => {
        <Link to ="#" className = 'menu-bars'>
            <FaIcons.FaBars onClick={showSidebar}/>
        </Link> 
-       {/* <Link to="#" className='menu-bars' onClick={showSidebar}>
-            {sidebar ? <FaIcons.FaRegWindowClose /> : <FaIcons.FaBars />}
-        </Link> */}
+
+       {/*---------- Display loggedin username and avatar------------ */}
+       {isAuth && (
+        <div className="user-info">
+            <span className="username">{username}</span>
+            {avatar && <img src={avatar} alt="Avatar" className="avatar" />}
+        </div>
+       )}
+
    </div>
     <nav className={sidebar ? 'nav-menu active' : 'nav-menu' }>
         <ul className='nav-menu-items' onClick={showSidebar}>
@@ -49,7 +95,7 @@ const SideNav = () => {
             })} */}
 
             
-               {!authService.isAuthenticated ?
+               {!isAuth ?
                <li className='nav-text'>
                     <Link to='/login'>
                         <IoMdLogIn />
@@ -63,7 +109,7 @@ const SideNav = () => {
                 </Link>
                 </li>}
 
-                {!authService.isAuthenticated ? 
+                {!isAuth ? 
                 <li className='nav-text'>
                         <Link to='/register' >
                         <BiSolidPencil />
