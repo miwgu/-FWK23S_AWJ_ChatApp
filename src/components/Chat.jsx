@@ -7,6 +7,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { PiTrashDuotone } from "react-icons/pi";
 import { IoMdSend } from "react-icons/io";
 import authService from '../utils/authService';
+import eventService from '../utils/eventService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DOMPurify from 'dompurify';
@@ -39,6 +40,15 @@ const Chat = () => {
       userId: 0,
       text: "Är du inte där? hej....!",
       createdAt: "2024-08-15T11:21:56.240Z",
+      avatar: "https://i.pravatar.cc/100?img=14",
+      username: "Oskar",
+      conversationId: null
+    },
+    { 
+      id:4,
+      userId: 0,
+      text: "Hej! Hur är det med dig?",
+      createdAt: "2024-08-16T12:30:04.000Z",
       avatar: "https://i.pravatar.cc/100?img=14",
       username: "Oskar",
       conversationId: null
@@ -93,9 +103,10 @@ const Chat = () => {
 
   const handleLogout =() =>{
     authService.signOut(()=>{
+        eventService.triggerLogout();// // Trigger logout event
         //remove all items from localStrage 
         localStorage.clear();
-        navigate('/')
+        navigate('/login')
     })
 };
 
@@ -162,8 +173,7 @@ const Chat = () => {
   const isLoggedInUser = (userId) => userId === loggedInUserId;
   console.log(loggedInUserId)
   
-  //Sorts the combined all message array by the createdAt date.
-  
+  //sort the combined all messages in ascending order by the createdAt timestamp
   const allMessages = [...messages, ...fakeChat].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   console.table(allMessages);
 
@@ -171,7 +181,7 @@ const Chat = () => {
   console.log(JSON.stringify(allMessages, null, 2));
 
   return (
-    <Container className="chat-container">
+    <div className="chat-container">
       <div className="messages">
         {allMessages.map((message) => (
           
@@ -187,7 +197,7 @@ const Chat = () => {
               <img src={message.avatar} alt="Avatar" />
             </div>
             )}
-            <Container className={`text ${isLoggedInUser(message.userId) ? 'right' : 'left'}`}>
+            <div className={`text ${isLoggedInUser(message.userId) ? 'right' : 'left'}`}>
               {message.text}
 
               {isLoggedInUser(message.userId) && ( 
@@ -195,23 +205,25 @@ const Chat = () => {
                 <PiTrashDuotone />
                 </Link>
               )}
-            </Container>
+            </div>
           </div>
         ))}
       </div>
       <div className='message-input'>
       <Form.Control 
           type="text" 
-          className ="message-input"
+          className ="message-input-field"
           placeholder="Send your message"
           value ={newMessage}
           onChange ={(e)=> setNewMessage(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(e)}
            />
-           <IoMdSend onClick={handleSendMessage} />
+           <IoMdSend 
+            className='send-icon'
+            onClick={handleSendMessage} />
       </div>
       <ToastContainer />
-    </Container>
+    </div>
   );
 };
 

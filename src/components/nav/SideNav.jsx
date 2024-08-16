@@ -9,6 +9,7 @@ import './SideNav.css';
 import {IconContext} from 'react-icons';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../utils/authService';
+import eventService from '../../utils/eventService';
 
 
 const SideNav = () => {
@@ -41,19 +42,19 @@ const SideNav = () => {
 
     useEffect(()=>{
         syncAuthState();
+
+        window.addEventListener('userLogout', handleLogout);
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+        window.removeEventListener('userLogout', handleLogout);
+        };
     }, []);
 
     const handleLogout =() =>{
         authService.signOut(()=>{
-            //remove all items from localStrage 
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('username');
-            localStorage.removeItem('avatar');
-            localStorage.removeItem('isAuthenticated');
-            //This flag refreshes chat.jsx one time when user login
-            localStorage.removeItem('hasRefreshed');
-
+            eventService.triggerLogout();
+            localStorage.clear()
             syncAuthState();//Reset state
             navigate('/')
         })
