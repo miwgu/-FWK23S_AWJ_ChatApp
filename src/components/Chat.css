@@ -1,13 +1,13 @@
 .chat-container {
   display: flex;
   flex-direction: column; 
-  height: 110vh; 
-  width: 50vh; 
+  height: 100vh; 
+  width: 55vw; 
   margin: 0px;
   padding-top: 120px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 50px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 20px;
   background-color: #17a6e3;
   overflow: hidden; 
 }  
@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  /* background-color: #f1f1f1; */
+  background-color: #f1f1f1; 
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -90,6 +90,7 @@
 }
 
 .message-input .message-input-field {
+  
   flex-grow: 1; /* Allow input to grow */
   margin-right: 10px; /* Spacing between input and send icon */
 }
@@ -97,4 +98,54 @@
 .message-input .send-icon {
   font-size: 24px; /* Adjust size as needed */
   cursor: pointer;
+}
+
+/* for larger screens (desktops) */
+@media only screen and (min-width: 1024px) {
+  .chat-container {
+    width: 65vW; 
+    padding-top: 100px;
+    padding-bottom: 60px;
+    margin: 0 auto; 
+  }
+  .message-input {
+    width: 65vw;
+    padding: 10px 5px; 
+    margin: 0 auto; 
+  }
+} 
+
+/* for tablets like iPad (between 768px and 1024px) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .chat-container {
+    width: 80vw; 
+    margin: 0 auto;
+  }
+  .message-input {
+    width: 80vw; 
+    max-width: none; /* Remove max-width restriction */
+    padding: 10px 5px;
+  }
+}
+
+
+/* for smaller screens (phones) */
+@media only screen and (max-width: 768px) {
+  .chat-container {
+    width: 100vw; 
+    padding-top: 100px; /* Check navbar */
+  }
+  .message-input {
+    max-width: 100%; /* Take full width of the screen */
+    padding: 10px 5px; 
+  }
+}
+
+/* Media Query for very small screens (e.g., phones below 380px) */
+@media only screen and (max-width: 380px) {
+  
+  .message-input {
+    max-width: 100%; /* Ensure full width on small devices */
+    padding: 8px 5px; 
+  }
 }
