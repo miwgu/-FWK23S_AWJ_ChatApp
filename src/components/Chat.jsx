@@ -2,13 +2,19 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Chat.css';
-import { Container } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Container, Form } from 'react-bootstrap';
+import {Link, useNavigate} from 'react-router-dom';
 import { PiTrashDuotone } from "react-icons/pi";
+import { IoMdSend } from "react-icons/io";
+import authService from '../utils/authService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DOMPurify from 'dompurify';
 
 const Chat = () => {
 
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
   const [fakeChat] = useState([
     {
       id:1,
@@ -39,6 +45,8 @@ const Chat = () => {
     }
   ]);
 
+  const navigate = useNavigate();
+
   //In localStrage userId stored as string so it change to Number
   const loggedInUserId = Number(localStorage.getItem('userId'));
 
@@ -55,23 +63,34 @@ const Chat = () => {
     }
     //-------refresh page end-------------
 
-    const getMessages = async ()=>{
-      try {
-        const accessToken = localStorage.getItem('access_token')
-        const res = await axios.get(import.meta.env.VITE_RAILWAY_URL + '/messages',{
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-        setMessages(res.data);
-        console.log(res.data);
-      } catch (error){
-        console.error('Error fetchinf messages:', error);
-      }
-    };
-
     getMessages();
   }, []);
+
+  const getMessages = async ()=>{
+    try {
+      const accessToken = localStorage.getItem('access_token')
+      const res = await axios.get(import.meta.env.VITE_RAILWAY_URL + '/messages',{
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      setMessages(res.data);
+      console.log(res.data);
+    } catch (error){
+      console.error('Error fetching messages:', error);
+      if(error.response && error.response.status === 403 ){
+       handleLogout();
+      }
+    }
+  };
+
+  const handleLogout =() =>{
+    authService.signOut(()=>{
+        //remove all items from localStrage 
+        localStorage.clear();
+        navigate('/')
+    })
+};
 
   const handleDeleteMessage = async (msgId) =>{
    try{
@@ -87,9 +106,47 @@ const Chat = () => {
 
    } catch (error){
     console.error('Error deleting message:', error);
-
    }
   }
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    console.log('Try send message');
+
+    if (newMessage.trim() === '') return;
+
+    // Sanitize the message before sending
+    const sanitizedMessage = DOMPurify.sanitize(newMessage);
+
+    try{
+      const accessToken = localStorage.getItem('access_token');
+      const res =
+      await axios.post(import.meta.env.VITE_RAILWAY_URL + '/messages', {
+        text: newMessage,
+        conversationId: null,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+    }
+  );
+
+      console.log ('Send a message successful!:', res.data)
+      setNewMessage(''); // Clear the input field
+      getMessages(); // Fetch message again after successful post new message
+
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error(
+      <div>
+        <strong>Error sending message!</strong><br/>
+        <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error.response ? error.response.data : error.message) }}>
+        </div>
+      </div>
+      );
+    }
+  };
 
   const isLoggedInUser = (userId) => userId === loggedInUserId;
   console.log(loggedInUserId)
@@ -130,6 +187,18 @@ const Chat = () => {
           </div>
         ))}
       </div>
+      <div className='message-input'>
+      <Form.Control 
+          type="text" 
+          className ="message-input"
+          placeholder="Send your message"
+          value ={newMessage}
+          onChange ={(e)=> setNewMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(e)}
+           />
+           <IoMdSend onClick={handleSendMessage} />
+      </div>
+      <ToastContainer />
     </Container>
   );
 };
