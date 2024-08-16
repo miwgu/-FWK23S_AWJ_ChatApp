@@ -74,8 +74,15 @@ const Chat = () => {
           Authorization: `Bearer ${accessToken}`
         }
       })
-      setMessages(res.data);
-      console.log(res.data);
+
+      // Convert message IDs to integers
+      const messagesWithIntIds = res.data.map((msg) => ({
+        ...msg,
+        id: parseInt(msg.id, 10),  // Convert ID to integer
+      }));
+
+      setMessages(messagesWithIntIds);
+      console.log('Fetched messages',messagesWithIntIds);
     } catch (error){
       console.error('Error fetching messages:', error);
       if(error.response && error.response.status === 403 ){
@@ -93,16 +100,20 @@ const Chat = () => {
 };
 
   const handleDeleteMessage = async (msgId) =>{
+    
+    const intMsgId = parseInt(msgId, 10);//It should be Integer
+
    try{
     const accessToken = localStorage.getItem('access_token');
-    await axios.delete(import.meta.env.VITE_RAILWAY_URL + '/messages/{msgId}' ,{
+    await axios.delete(`${import.meta.env.VITE_RAILWAY_URL}/messages/${intMsgId}` ,{
       headers :{
         Authorization: `Bearer ${accessToken}`
       }
     });
 
     // Filter and save remaining messages except deleted messages
-      setMessages ((prevMessages) => prevMessages.filter ((m)=> m.id !==msgId))
+      setMessages ((prevMessages) => prevMessages.filter ((msg)=> msg.id !==intMsgId))
+      console.log('Message deleted successfully!');
 
    } catch (error){
     console.error('Error deleting message:', error);
@@ -152,10 +163,11 @@ const Chat = () => {
   console.log(loggedInUserId)
   
   //Sorts the combined all message array by the createdAt date.
-  const allMessages =[...messages, ...fakeChat].sort((a,b)=> new Date(a.createdAt - new Date(b.createdAt)));
+  
+  const allMessages = [...messages, ...fakeChat].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   console.table(allMessages);
 
-  // OR log using JSON.stringify
+  // log using JSON.stringify
   console.log(JSON.stringify(allMessages, null, 2));
 
   return (
