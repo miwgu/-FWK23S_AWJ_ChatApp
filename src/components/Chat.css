@@ -7,7 +7,7 @@
   padding-top: 120px;
   padding-left: 0px;
   padding-right: 0px;
-  padding-bottom: 20px;
+  padding-bottom: 60px;
   background-color: #17a6e3;
   overflow: hidden; 
 }  
@@ -143,7 +143,6 @@
 
 /* Media Query for very small screens (e.g., phones below 380px) */
 @media only screen and (max-width: 380px) {
-  
   .message-input {
     max-width: 100%; /* Ensure full width on small devices */
     padding: 8px 5px; 
