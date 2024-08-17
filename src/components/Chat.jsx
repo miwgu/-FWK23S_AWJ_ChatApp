@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
 import { Container, Form } from 'react-bootstrap';
@@ -22,7 +22,7 @@ const Chat = () => {
       userId: 0,
       text: "Hej Det är jag. Vad gör du?",
       createdAt: "2024-08-15T11:19:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=14",
+      avatar: "https://i.pravatar.cc/100?img=4",
       username: "Oskar",
       conversationId: null
     },
@@ -31,7 +31,7 @@ const Chat = () => {
       userId: 0,
       text: "Det är Oskar",
       createdAt: "2024-08-15T11:20:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=14",
+      avatar: "https://i.pravatar.cc/100?img=4",
       username: "Oskar",
       conversationId: null
     },
@@ -40,7 +40,7 @@ const Chat = () => {
       userId: 0,
       text: "Är du inte där? hej....!",
       createdAt: "2024-08-15T11:21:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=14",
+      avatar: "https://i.pravatar.cc/100?img=4",
       username: "Oskar",
       conversationId: null
     },
@@ -49,13 +49,14 @@ const Chat = () => {
       userId: 0,
       text: "Hej! Hur är det med dig?",
       createdAt: "2024-08-16T12:30:04.000Z",
-      avatar: "https://i.pravatar.cc/100?img=14",
+      avatar: "https://i.pravatar.cc/100?img=4",
       username: "Oskar",
       conversationId: null
     }
   ]);
 
   const navigate = useNavigate();
+  const messagesEndRef = useRef(null);// Reference to the bottom of the chat
 
   //In localStrage userId stored as string so it change to Number
   const loggedInUserId = Number(localStorage.getItem('userId'));
@@ -180,6 +181,13 @@ const Chat = () => {
   // log using JSON.stringify
   console.log(JSON.stringify(allMessages, null, 2));
 
+  //Scroll to bottom whenever allMessages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [allMessages]);
+
   return (
     <div className="chat-container">
       <div className="messages">
@@ -208,6 +216,9 @@ const Chat = () => {
             </div>
           </div>
         ))}
+        {/* This is the end of the messages to scroll into view */}
+        <div ref={messagesEndRef}/>
+
       </div>
       <div className='message-input'>
       <Form.Control 

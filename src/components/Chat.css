@@ -1,3 +1,4 @@
+/* Base styles  (for default view  phones) */
 .chat-container {
   display: flex;
   flex-direction: column; 
