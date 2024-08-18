@@ -39,7 +39,7 @@ const Login = () => {
         <div>Faied to retrieve CSRF token!</div>
       );
     });
-  }, [setCookie]);
+  }, []);
 
   const handleSubmit = (e) =>{
    e.preventDefault();
