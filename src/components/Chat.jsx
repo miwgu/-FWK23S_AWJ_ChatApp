@@ -145,7 +145,7 @@ const Chat = () => {
       const accessToken = localStorage.getItem('access_token');
       const res =
       await axios.post(import.meta.env.VITE_RAILWAY_URL + '/messages', {
-        text: newMessage,
+        text: sanitizedMessage,
         conversationId: null,
       },
       {
@@ -183,7 +183,7 @@ const Chat = () => {
 
   //Scroll to bottom whenever allMessages change
   useEffect(() => {
-    if (messagesEndRef.current) {
+    if (messagesEndRef.current) { // Need to check  if the messagesEndRef exists (the bottom of the message list has been rendered)
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [allMessages]);

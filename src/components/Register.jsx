@@ -78,10 +78,12 @@ const Register = () => {
       return;  //Client side error: Prevent submit
     }
       
+    const sanitizedUsername = DOMPurify.sanitize(username);
+    const sanitizedPassword = DOMPurify.sanitize(email);
 
     axios.post(import.meta.env.VITE_RAILWAY_URL + '/auth/register', {
-      username,
-      password,
+      username: sanitizedUsername,
+      password: sanitizedPassword,
       email,
       avatar,
       csrfToken: cookies['CSRF-TOKEN']
@@ -98,13 +100,14 @@ const Register = () => {
 
     if (error.response && error.response.status === 400 ){
       const serverErrorMessage = error.response.data.error;
+      const sanitizedServerErrorMessage = DOMPurify.sanitize(serverErrorMessage);
       const existMessage = "Username or email already exists"
-      if(serverErrorMessage === existMessage){
+      if(sanitizedServerErrorMessage === existMessage){
 
         setErrors({
           ...errors,
-          username: serverErrorMessage,
-          email: serverErrorMessage
+          username: sanitizedServerErrorMessage,
+          email: sanitizedServerErrorMessage
         
         })
         hasErrors = true;
