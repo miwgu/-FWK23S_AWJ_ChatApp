@@ -21,7 +21,6 @@ const Register = () => {
    const[email, setEmail]= useState('');
    const[password, setPassword]= useState('');
    const[avatar, setAvatar]= useState('');
-   const[csrfToken, setCsrfToken]= useState('');
    const[cookies, setCookie]= useCookies(['CSRF-TOKEN']);
 
    const [errors, setErrors]= useState({
@@ -31,15 +30,37 @@ const Register = () => {
    avatar: '',
    });
 
+   const avatarOptions = [
+    'https://i.pravatar.cc/100?img=4',
+    'https://i.pravatar.cc/100?img=5',
+    'https://i.pravatar.cc/100?img=9',
+    'https://i.pravatar.cc/100?img=12',
+    'https://i.pravatar.cc/100?img=14',
+    'https://i.pravatar.cc/100?img=16',
+    'https://i.pravatar.cc/100?img=17',
+    'https://i.pravatar.cc/100?img=20',
+    'https://i.pravatar.cc/100?img=24',
+    'https://i.pravatar.cc/100?img=25',
+   ] 
+
    const navigate = useNavigate();
+
+   const handleAvatarSelect = (avatarUrl) =>{
+     setAvatar(avatarUrl);
+   }
 
    useEffect(()=>{
     console.log('Fetching CSRF token...');
     axios.patch(import.meta.env.VITE_RAILWAY_URL + '/csrf')
     .then(res =>{
       const token = res.data.csrfToken;
-      setCookie('CSRF-TOKEN', token, {path: '/'});
-      setCsrfToken(token);
+      // Store the CSRF token in a cookie
+      setCookie('CSRF-TOKEN', token, {
+        path: '/',      // Make the cookie available site-wide
+        secure: true,   // security for cookie: Ensure the cookie is sent over HTTPS only 
+        sameSite: 'Strict', // security for cookie: Prevent cross-site request forgery
+        httpOnly: false // I cannot change true because I need to access csrftoken in JavaScript (for sending login requests)
+      });
       console.log('CSRF token set:', token);
     })
     .catch(error=>{
@@ -79,12 +100,12 @@ const Register = () => {
     }
       
     const sanitizedUsername = DOMPurify.sanitize(username);
-    const sanitizedPassword = DOMPurify.sanitize(email);
+    const sanitizedEmail = DOMPurify.sanitize(email);
 
     axios.post(import.meta.env.VITE_RAILWAY_URL + '/auth/register', {
       username: sanitizedUsername,
-      password: sanitizedPassword,
-      email,
+      password,
+      email:sanitizedEmail,
       avatar,
       csrfToken: cookies['CSRF-TOKEN']
     })
@@ -174,16 +195,16 @@ const Register = () => {
             </Form.Group>
 
             <DropdownButton id="dropdown-basic-button" title="Select an Avatar">
-       
-                <Dropdown.Item onClick={() => setAvatar('https://i.pravatar.cc/150')}>
+                {avatarOptions.map((avatarUrl, index)=>(
+                <Dropdown.Item key ={index} onClick={() => setAvatar(avatarUrl)}>
                     <img
-                    src={'https://i.pravatar.cc/150'}
-                    alt="avatar"
+                    src={avatarUrl}
+                    alt={`avatar-¤{index}`}
                     style={{ width: '30px', height: '30px', marginRight: '10px' }}
                     />
-                    
+                     Avatar {index + 1}
                 </Dropdown.Item>
-        
+            ))}       
             </DropdownButton>
 
             {errors.avatar && <p style={{ color: '#ff0066' }}>{errors.avatar}</p>}
