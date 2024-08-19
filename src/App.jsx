@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login'
 import Chat from './components/Chat'
+import Profile from './components/Profile';
 import Register from './components/Register'
 import SideNav from './components/nav/SideNav'
 import ProtectedRoute from './utils/ProtectedRoute';
@@ -21,6 +22,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}> 
           <Route path='/chat' element={<Chat/>} />
+          <Route path='/profile' element={<Profile/>} />
         </Route>
         
       </Routes>

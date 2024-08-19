@@ -4,6 +4,7 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { BiSolidPencil } from "react-icons/bi";
 import { IoMdLogIn } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
+import { FaRegFaceSmileWink } from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import './SideNav.css';
 import {IconContext} from 'react-icons';
@@ -108,17 +109,25 @@ const SideNav = () => {
                     <IoMdLogOut />
                     <span className='uLine-text'>Logout</span>
                 </Link>
-                </li>}
+                </li>
+                
+                }
 
                 {!isAuth ? 
                 <li className='nav-text'>
-                        <Link to='/register' >
-                        <BiSolidPencil />
-                        <span className='uLine-text'>Register</span>
-                    </Link>
+                  <Link to='/register' >
+                      <BiSolidPencil />
+                      <span className='uLine-text'>Register</span>
+                  </Link>
 
                 </li>:
-                null}
+                <li className='nav-text'>
+                    <Link to='/profile' >
+                        <FaRegFaceSmileWink />
+                        <span className='uLine-text'>Profile</span>
+                    </Link>
+                </li>
+                                }
 
             
         </ul>

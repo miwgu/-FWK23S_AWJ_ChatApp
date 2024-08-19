@@ -69,18 +69,44 @@ const Login = () => {
     if(loggedInUser){
       console.log('Logged-in user fetched:', loggedInUser);
 
-      localStorage.setItem('userId', loggedInUser.userId);
-      localStorage.setItem('username', loggedInUser.username);
-      localStorage.setItem('avatar', loggedInUser.avatar);
-      
-      toast.success (
-        <div>Login successful!</div>
-      );
+      const userId= loggedInUser.userId
+      axios.get(`${import.meta.env.VITE_RAILWAY_URL}/users/${userId}`,{
+        headers: {
+         Authorization: `Bearer ${accessToken}`
+       }
+      }).then(loginUserRes =>{
+        
+        //loginUserRes is Array. Check if the response data is an array and has more than one data
+        if (Array.isArray(loginUserRes.data)&& loginUserRes.data.length >0) { 
+          const loggedInUser=loginUserRes.data[0];
+        
+          localStorage.setItem('userId', loggedInUser.id);
+          localStorage.setItem('username', loggedInUser.username);
+          localStorage.setItem('email', loggedInUser.email);
+          localStorage.setItem('avatar', loggedInUser.avatar);
+        
+        toast.success (
+          <div>Login successful!</div>
+        );
+  
+        /* setTimeout(()=>{
+          navigate('/chat'); // Navigate to login page after 3 seconds
+        }, 3000); */
+        authService.signIn(() =>navigate('/chat'))
+       
+      } else {
+        console.error('Incomplete user data:', loggedInUser);
+      }
 
-      /* setTimeout(()=>{
-        navigate('/chat'); // Navigate to login page after 3 seconds
-      }, 3000); */
-      authService.signIn(() =>navigate('/chat'))
+      })
+      .catch(loginUserError =>{
+        console.error('Error feching login user by Id:', loginUserError);
+        toast.error(
+          <div>Problems occur. Please wait and try again!</div>
+        )
+      })
+
+      
 
     } else {
       console.error('User not found!')

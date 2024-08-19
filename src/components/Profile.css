@@ -1,0 +1,7 @@
+.profile_bg{
+    height: 100vh;
+    width: 100vw; 
+    background-image: url('../assets/profile.jpg');
+    background-size:cover ;
+    background-position: top;
+}
