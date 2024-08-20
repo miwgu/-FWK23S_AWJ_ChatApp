@@ -4,13 +4,18 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { BiSolidPencil } from "react-icons/bi";
 import { IoMdLogIn } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
+import { CgProfile } from "react-icons/cg";
 import { FaRegFaceSmileWink } from "react-icons/fa6";
-import {Link} from 'react-router-dom';
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import {Link, useLocation} from 'react-router-dom';
 import './SideNav.css';
 import {IconContext} from 'react-icons';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../utils/authService';
 import eventService from '../../utils/eventService';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 
 
 const SideNav = () => {
@@ -18,11 +23,15 @@ const SideNav = () => {
     const [isAuth, setIsAuth]= useState(false);
     const [username, setUsername] = useState('');
     const [avatar, setAvatar] = useState('');
+
+    const [fullscreen, setFullscreen] = useState(true);
+    const [show, setShow] = useState(false);
+    const [selectedFriend, setSelectedFriend] = useState('Choose a friend'); 
     
     const navigate = useNavigate();
+    const location = useLocation();
 
     const showSidebar =() => setSidebar(!sidebar)
-
 
     const syncAuthState=()=>{
         
@@ -61,6 +70,18 @@ const SideNav = () => {
         })
     };
 
+    const handleFriendSelect = (friend) =>{
+        setSelectedFriend(friend);
+        setShow(false);//close modal
+
+        // all logic after
+    }
+
+    const handleShow = (breakpoint) =>{
+        setFullscreen(breakpoint);
+        setShow(true);
+    }
+
   return(
   <>
   <IconContext.Provider value={{color: '#c1c1c1'}}>
@@ -68,6 +89,15 @@ const SideNav = () => {
        <Link to ="#" className = 'menu-bars'>
            <FaIcons.FaBars onClick={showSidebar}/>
        </Link> 
+
+       {/*---------- Display friend selection when on Chat page ------------ */}
+       {isAuth && location.pathname === '/chat' && (
+        <Button variant='light' onClick={()=> handleShow(true)} >
+           {selectedFriend} <MdOutlineKeyboardArrowDown  />
+        </Button>
+        
+
+       )}
 
        {/*---------- Display loggedin username and avatar------------ */}
        {isAuth && (
@@ -123,8 +153,18 @@ const SideNav = () => {
                 </li>:
                 <li className='nav-text'>
                     <Link to='/profile' >
-                        <FaRegFaceSmileWink />
+                        <CgProfile />
                         <span className='uLine-text'>Profile</span>
+                    </Link>
+                </li>
+                                }
+
+                {!isAuth ? 
+                null:
+                <li className='nav-text'>
+                    <Link to='/chat' >
+                        <FaRegFaceSmileWink />
+                        <span className='uLine-text'>Chat</span>
                     </Link>
                 </li>
                                 }
@@ -133,6 +173,18 @@ const SideNav = () => {
         </ul>
     </nav>
     </IconContext.Provider>
+
+    {/* Fullscreen Modal for Friend Selection */}
+        <Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Select a Friend</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Button variant="primary" onClick={() => handleFriendSelect('Oskar')}>Oskar</Button>
+                <Button variant="primary" onClick={() => handleFriendSelect('Friend 2')}>Friend 2</Button>
+                <Button variant="primary" onClick={() => handleFriendSelect('Friend 3')}>Friend 3</Button>
+            </Modal.Body>
+        </Modal>
   </>
   ) 
 }
