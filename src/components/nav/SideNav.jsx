@@ -15,6 +15,7 @@ import authService from '../../utils/authService';
 import eventService from '../../utils/eventService';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import SwitchFriendModal from '../SwitchFriendModal';
 
 
 
@@ -24,8 +25,8 @@ const SideNav = () => {
     const [username, setUsername] = useState('');
     const [avatar, setAvatar] = useState('');
 
-    const [fullscreen, setFullscreen] = useState(true);
-    const [show, setShow] = useState(false);
+    //const [fullscreen, setFullscreen] = useState(true);
+    //const [show, setShow] = useState(false);
     const [selectedFriend, setSelectedFriend] = useState('Choose a friend'); 
     
     const navigate = useNavigate();
@@ -70,7 +71,7 @@ const SideNav = () => {
         })
     };
 
-    const handleFriendSelect = (friend) =>{
+/*     const handleFriendSelect = (friend) =>{
         setSelectedFriend(friend);
         setShow(false);//close modal
 
@@ -80,7 +81,7 @@ const SideNav = () => {
     const handleShow = (breakpoint) =>{
         setFullscreen(breakpoint);
         setShow(true);
-    }
+    } */
 
   return(
   <>
@@ -92,10 +93,11 @@ const SideNav = () => {
 
        {/*---------- Display friend selection when on Chat page ------------ */}
        {isAuth && location.pathname === '/chat' && (
-        <Button variant='light' onClick={()=> handleShow(true)} >
-           {selectedFriend} <MdOutlineKeyboardArrowDown  />
-        </Button>
-        
+
+        <SwitchFriendModal
+           selectedFriend={selectedFriend}
+           setSelectedFriend={setSelectedFriend}   
+        />
 
        )}
 
@@ -175,7 +177,7 @@ const SideNav = () => {
     </IconContext.Provider>
 
     {/* Fullscreen Modal for Friend Selection */}
-        <Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
+{/*         <Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Select a Friend</Modal.Title>
             </Modal.Header>
@@ -184,7 +186,7 @@ const SideNav = () => {
                 <Button variant="primary" onClick={() => handleFriendSelect('Friend 2')}>Friend 2</Button>
                 <Button variant="primary" onClick={() => handleFriendSelect('Friend 3')}>Friend 3</Button>
             </Modal.Body>
-        </Modal>
+        </Modal> */}
   </>
   ) 
 }
