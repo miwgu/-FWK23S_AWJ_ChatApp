@@ -8,6 +8,7 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
     const [conversationIds, setConversationIds] = useState([]);
+    const [conversationMap, setConversationMap] = useState({});
 
     const userId = Number(localStorage.getItem('userId'));
     const accessToken = localStorage.getItem('access_token')
@@ -24,6 +25,10 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
   
     const handleClose = () => {
         setShow(false);
+      };
+
+    const getButtonName = (conversationId) => {
+        return conversationMap[conversationId] || `Friend ${conversationIds.indexOf(conversationId) + 1}`;
       };
 
     useEffect (()=>{
@@ -71,6 +76,9 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
                   inviteMap[invite.username] = invite.conversationId;
                  });
 
+                 setConversationMap(inviteMap);
+                 console.log ("inviteMap", inviteMap)
+
                 const inviteConversations = Object.values(inviteMap);
                 console.log("Unique conversationIds from invites:", inviteConversations);
 
@@ -107,10 +115,11 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
                 key={index}
                 variant="primary"
                 onClick={() => {
-                    handleFriendSelect(conversationId);
+                    handleFriendSelect(getButtonName(conversationId));
                 }}
               >
-                {conversationId}
+                {/* {conversationId} */}
+                {getButtonName(conversationId)}
               </Button>
             ))
           ) : (
