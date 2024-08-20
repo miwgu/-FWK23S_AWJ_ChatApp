@@ -9,6 +9,8 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
     const [show, setShow] = useState(false);
     const [conversationIds, setConversationIds] = useState([]);
     const [conversationMap, setConversationMap] = useState({});
+    const [usernameAndConversationId, setUsernameAndConversationId] = useState([]);
+    const [inviteMap, setInviteMap] = useState({});
 
     const userId = Number(localStorage.getItem('userId'));
     const accessToken = localStorage.getItem('access_token')
@@ -27,8 +29,8 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
         setShow(false);
       };
 
-    const getButtonName = (conversationId) => {
-        return conversationMap[conversationId] || `Friend ${conversationIds.indexOf(conversationId) + 1}`;
+    const getButtonName = (conversationId, index) => {
+        return inviteMap[conversationId] || `Friend ${index + 1}`;
       };
 
     useEffect (()=>{
@@ -71,12 +73,13 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
 
                 //Filter the latest invate per username
                 const inviteMap = {};
-                invites.forEach(invite => {
-                    console.log(`Mapping invite for ${invite.username}:`, invite.conversationId);
-                  inviteMap[invite.username] = invite.conversationId;
-                 });
 
-                 setConversationMap(inviteMap);
+                 invites.forEach(invite => {
+                    inviteMap[invite.username] = invite.conversationId;
+                });
+
+                // setConversationMap(inviteMap);
+                setInviteMap(inviteMap)
                  console.log ("inviteMap", inviteMap)
 
                 const inviteConversations = Object.values(inviteMap);
@@ -86,7 +89,17 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
                 const combinedConversations = [...new Set([...messageConversations, ...inviteConversations])];
                 console.log("Combined unique conversationIds:", combinedConversations);
 
-                setConversationIds(combinedConversations);
+                //setConversationIds(combinedConversations);
+
+                // Create the usernameAndConversationId array
+                const usernameAndConversationIdArray = combinedConversations.map((conversationId) => {
+                    const username = Object.keys(inviteMap).find(key => inviteMap[key] === conversationId) || null;
+                    return { [username]: conversationId };
+                });
+
+                setUsernameAndConversationId(usernameAndConversationIdArray);
+                console.log("usernameAndConversationIdArray", usernameAndConversationIdArray)
+                
 
             } catch (error){
                 console.error('Error fetching messages or user infomation (invites):', error)
@@ -109,19 +122,26 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
             </Modal.Header>
             <Modal.Body>
 
-            {conversationIds.length > 0 ? (
-            conversationIds.map((conversationId, index) => (
+            {usernameAndConversationId.length > 0 ? (
+            usernameAndConversationId.map((item, index) => {
+                const username = Object.keys(item)[0];
+                            const conversationId = item[username];
+                            const buttonName = username !== 'null' ? username : `Friend ${index + 1}`;
+            return (
               <Button
                 key={index}
                 variant="primary"
                 onClick={() => {
-                    handleFriendSelect(getButtonName(conversationId));
+                    //handleFriendSelect(getButtonName(conversationId, index));
+                    handleFriendSelect(conversationId);
                 }}
               >
                 {/* {conversationId} */}
-                {getButtonName(conversationId)}
+                {/* {getButtonName(conversationId, index)} */}
+                {buttonName}
               </Button>
-            ))
+            );
+           })
           ) : (
             <p>No conversations available</p>
           )}
