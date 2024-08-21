@@ -19,7 +19,7 @@ import SwitchFriendModal from '../SwitchFriendModal';
 
 
 
-const SideNav = () => {
+const SideNav = ({ selectedConversationId, setSelectedConversationId }) => {
     const [sidebar, setSidebar]=useState(false);
     const [isAuth, setIsAuth]= useState(false);
     const [username, setUsername] = useState('');
@@ -27,7 +27,8 @@ const SideNav = () => {
 
     //const [fullscreen, setFullscreen] = useState(true);
     //const [show, setShow] = useState(false);
-    const [selectedFriend, setSelectedFriend] = useState('Choose a friend'); 
+    const [selectedFriend, setSelectedFriend] = useState('Choose a friend');
+    //const [selectedConversationId, setSelectedConversationId] = useState(null); 
     
     const navigate = useNavigate();
     const location = useLocation();
@@ -83,6 +84,10 @@ const SideNav = () => {
         setShow(true);
     } */
 
+        useEffect(() => {
+            console.log("Selected Conversation ID in SideNav: ", selectedConversationId);
+        }, [selectedConversationId]);
+
   return(
   <>
   <IconContext.Provider value={{color: '#c1c1c1'}}>
@@ -96,7 +101,9 @@ const SideNav = () => {
 
         <SwitchFriendModal
            selectedFriend={selectedFriend}
-           setSelectedFriend={setSelectedFriend}   
+           setSelectedFriend={setSelectedFriend}
+           // To update the conversationId
+           setSelectedConversationId={setSelectedConversationId}    
         />
 
        )}

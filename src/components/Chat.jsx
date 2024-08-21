@@ -11,12 +11,14 @@ import eventService from '../utils/eventService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DOMPurify from 'dompurify';
+import SwitchFriendModal from './SwitchFriendModal'; 
 
-const Chat = () => {
+const Chat = ({ selectedConversationId }) => {
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [fakeChat] = useState([
+  //const [selectedConversationId, setSelectedConversationId] = useState(null);
+  /* const [fakeChat] = useState([
     {
       id:1,
       userId: 0,
@@ -53,7 +55,7 @@ const Chat = () => {
       username: "Oskar",
       conversationId: null
     }
-  ]);
+  ]); */
 
   const navigate = useNavigate();
   const messagesEndRef = useRef(null);// Reference to the bottom of the chat
@@ -61,6 +63,12 @@ const Chat = () => {
   //In localStrage userId stored as string so it change to Number
   const loggedInUserId = Number(localStorage.getItem('userId'));
 
+  // Trigger getMessages when selectedConversationId changes
+  useEffect(() => {
+    console.log("Selected ConversationId:", selectedConversationId);
+    getMessages();
+  }, [selectedConversationId]);
+  
   useEffect(() => {
     //--------Here to refresh this page to show loggind user name and avatar-----------
     // Check if the page has been refreshed before 
@@ -77,10 +85,15 @@ const Chat = () => {
     getMessages();
   }, []);
 
+  
+
   const getMessages = async ()=>{
     try {
       const accessToken = localStorage.getItem('access_token')
-      const res = await axios.get(import.meta.env.VITE_RAILWAY_URL + '/messages',{
+      
+      console.log("Selected ConversationId", selectedConversationId)
+      if(selectedConversationId){
+      const res = await axios.get(`${import.meta.env.VITE_RAILWAY_URL}/messages?conversationId=${selectedConversationId}`,{
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -94,6 +107,13 @@ const Chat = () => {
 
       setMessages(messagesWithIntIds);
       console.log('Fetched messages',messagesWithIntIds);
+    } else {
+
+      setMessages([]);
+      console.log('No conversation selected, empty messages array set.');
+
+    }
+      
     } catch (error){
       console.error('Error fetching messages:', error);
       if(error.response && error.response.status === 403 ){
@@ -146,7 +166,7 @@ const Chat = () => {
       const res =
       await axios.post(import.meta.env.VITE_RAILWAY_URL + '/messages', {
         text: sanitizedMessage,
-        conversationId: null,
+        conversationId: selectedConversationId,  // change from null to chosen conversationId
       },
       {
         headers: {
@@ -175,7 +195,7 @@ const Chat = () => {
   console.log(loggedInUserId)
   
   //sort the combined all messages in ascending order by the createdAt timestamp
-  const allMessages = [...messages, ...fakeChat].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  const allMessages = [...messages].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   console.table(allMessages);
 
   // log using JSON.stringify

@@ -3,8 +3,10 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import authService from '../utils/authService';
+import eventService from '../utils/eventService';
 
-const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
+const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConversationId}) => {
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
     const [conversationIds, setConversationIds] = useState([]);
@@ -15,8 +17,10 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
     const userId = Number(localStorage.getItem('userId'));
     const accessToken = localStorage.getItem('access_token')
 
-    const handleFriendSelect = (friend) =>{
-        setSelectedFriend(friend);
+    const handleFriendSelect = (conversationId) =>{
+        console.log("Selected Conversation ID: ", conversationId);
+        setSelectedFriend(conversationId);
+        setSelectedConversationId(conversationId); 
         setShow(false);//close modal
     }
 
@@ -29,9 +33,18 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
         setShow(false);
       };
 
-    const getButtonName = (conversationId, index) => {
+      const handleLogout =() =>{
+        authService.signOut(()=>{
+            eventService.triggerLogout();// // Trigger logout event
+            //remove all items from localStrage 
+            localStorage.clear();
+            navigate('/login')
+        })
+    };
+
+    /* const getButtonName = (conversationId, index) => {
         return inviteMap[conversationId] || `Friend ${index + 1}`;
-      };
+      }; */
 
     useEffect (()=>{
 
@@ -103,6 +116,9 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend}) => {
 
             } catch (error){
                 console.error('Error fetching messages or user infomation (invites):', error)
+                if(error.response && error.response.status === 403 ){
+                    handleLogout();
+                }
             }
         };
 
