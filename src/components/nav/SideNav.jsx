@@ -16,6 +16,7 @@ import eventService from '../../utils/eventService';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import SwitchFriendModal from '../SwitchFriendModal';
+import InvitationModal from '../InvitationModal';
 
 
 
@@ -107,6 +108,13 @@ const SideNav = ({ selectedConversationId, setSelectedConversationId }) => {
         />
 
        )}
+
+       {/*---------- Display Invitation icon------------ */}
+       {isAuth && location.pathname === '/chat' && (
+
+           <InvitationModal />
+
+        )}
 
        {/*---------- Display loggedin username and avatar------------ */}
        {isAuth && (

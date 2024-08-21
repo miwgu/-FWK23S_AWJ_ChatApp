@@ -43,9 +43,9 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
         })
     };
 
-     const getButtonName = (conversationId, index) => {
+     /* const getButtonName = (conversationId, index) => {
         return inviteMap[conversationId] || `Friend ${index + 1}`;
-      }; 
+      }; */ 
 
     useEffect (()=>{
 
