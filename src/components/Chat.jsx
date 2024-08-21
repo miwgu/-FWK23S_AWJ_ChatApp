@@ -17,6 +17,7 @@ const Chat = ({ selectedConversationId }) => {
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [allUsers, setAllUsers] = useState([]); // To stor alluser to show Avatar
   //const [selectedConversationId, setSelectedConversationId] = useState(null);
   /* const [fakeChat] = useState([
     {
@@ -67,6 +68,7 @@ const Chat = ({ selectedConversationId }) => {
   useEffect(() => {
     console.log("Selected ConversationId:", selectedConversationId);
     getMessages();
+    getAllUsers();
   }, [selectedConversationId]);
   
   useEffect(() => {
@@ -121,6 +123,23 @@ const Chat = ({ selectedConversationId }) => {
       }
     }
   };
+
+  const getAllUsers = async () =>{
+    try {
+      const accessToken = localStorage.getItem('access_token');
+      const res = await axios.get(`${import.meta.env.VITE_RAILWAY_URL}/users`, {
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      setAllUsers(res.data)
+      console.log("AllUsers", allUsers)
+
+    }catch (error){
+      console.error('Error fetching users:', error);
+
+    }
+  }
 
   const handleLogout =() =>{
     authService.signOut(()=>{
@@ -191,7 +210,8 @@ const Chat = ({ selectedConversationId }) => {
     }
   };
 
-  const isLoggedInUser = (userId) => userId === loggedInUserId;
+
+  const isLoggedInUser = (userId) => userId === loggedInUserId;//Boolean true
   console.log(loggedInUserId)
   
   //sort the combined all messages in ascending order by the createdAt timestamp
@@ -211,18 +231,22 @@ const Chat = ({ selectedConversationId }) => {
   return (
     <div className="chat-container">
       <div className="messages">
-        {allMessages.map((message) => (
-          
+        {allMessages.map((message) => {
+          console.log("All user:", allUsers)
+          console.log("all Messages:", allMessages )
+
+          //Need to find sender´s id from all messages for showing sender´s Avatar 
+          const sender = allUsers.find(user => user.userId === message.userId)
+          console.log("Sender", sender)
+          return(
           <div
-            key= {message.id} 
-            
+            key= {message.id}  
             className={`message ${isLoggedInUser(message.userId) ? 'right' : 'left'}`}
           >
-            {!isLoggedInUser(message.userId) && (
+            {!isLoggedInUser(message.userId) && sender && (
             <div 
-             key= {message.id}
              className="avatar">
-              <img src={message.avatar} alt="Avatar" />
+              <img src={sender.avatar} alt="Avatar" />
             </div>
             )}
             <div className={`text ${isLoggedInUser(message.userId) ? 'right' : 'left'}`}>
@@ -235,7 +259,8 @@ const Chat = ({ selectedConversationId }) => {
               )}
             </div>
           </div>
-        ))}
+    );
+})}
         {/* This is the end of the messages to scroll into view */}
         <div ref={messagesEndRef}/>
 
