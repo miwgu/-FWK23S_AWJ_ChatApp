@@ -5,13 +5,17 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
+import authService from '../utils/authService';
+import eventService from '../utils/eventService';
 import 'react-toastify/dist/ReactToastify.css';
 import './Profile.css'
+import DeleteModal from './DeleteModal';
 
 const Profile = () => {
     const[username, setUsername]= useState('');
     const[email, setEmail]= useState('');
     const[avatar, setAvatar]= useState('');
+    const [modalShow, setModalShow] = useState(false);
  
     const [errors, setErrors]= useState({
     username: '',
@@ -108,8 +112,7 @@ const Profile = () => {
         headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-     }
-    )
+     })
      .then(res=>{
        console.log('Profile Update successful!:', res.data);
        toast.success(<div>Profile update successful! ✨</div>);
@@ -171,6 +174,45 @@ const Profile = () => {
  
      });
     };
+
+    /* const handleDelete =async () =>{
+
+      const loggedInUserId= Number(localStorage.getItem('userId'));
+
+     try{
+      const accessToken = localStorage.getItem('access_token');
+      await axios.delete(`${import.meta.env.VITE_RAILWAY_URL}/users/${loggedInUserId}` ,{
+      headers :{
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+     
+      console.log("Delete account successful!")
+      handleLogout();
+      
+     }catch (error){
+      console.error('Error deleting user´s account:', error);
+      toast.error(
+        <div>
+          <strong>Error deleting user´s account!</strong><br/>
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error.response ? error.response.data : error.message) }}>
+          </div>
+        </div>
+        );
+
+     }
+
+    } 
+
+    const handleLogout =() =>{
+      authService.signOut(()=>{
+          eventService.triggerLogout();// // Trigger logout event
+          //remove all items from localStrage 
+          localStorage.clear();
+          navigate('/login')
+      })
+  };
+  */
 
     const handleEditClick = () =>{
         setIsEditMode(true)
@@ -252,8 +294,14 @@ const Profile = () => {
      
             <div className='center-content'>
              {!isEditMode && (
-               <Button  variant="success" className='mt-2' onClick={handleEditClick}>
+               <Button  variant="success" className='mt-2 me-2' onClick={handleEditClick}>
                  Edit
+               </Button>
+             )}
+
+             {!isEditMode && (
+               <Button  variant="danger" className='mt-2' onClick={() => setModalShow(true)}>
+                 Delete
                </Button>
              )}
 
@@ -272,6 +320,10 @@ const Profile = () => {
            </Form>
            </div>
            <ToastContainer />
+           <DeleteModal
+             show={modalShow}
+             onHide={() => setModalShow(false)}
+      />
          </div>
        )
 };

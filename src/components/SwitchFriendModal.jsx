@@ -17,9 +17,10 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
     const userId = Number(localStorage.getItem('userId'));
     const accessToken = localStorage.getItem('access_token')
 
-    const handleFriendSelect = (conversationId) =>{
+    const handleFriendSelect = (conversationId, username) =>{
         console.log("Selected Conversation ID: ", conversationId);
-        setSelectedFriend(conversationId);
+        // Changed from conversationId to username In Nav I want to show username(same as Selected Button name)
+        setSelectedFriend(username);
         setSelectedConversationId(conversationId); 
         setShow(false);//close modal
     }
@@ -42,9 +43,9 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
         })
     };
 
-    /* const getButtonName = (conversationId, index) => {
+     const getButtonName = (conversationId, index) => {
         return inviteMap[conversationId] || `Friend ${index + 1}`;
-      }; */
+      }; 
 
     useEffect (()=>{
 
@@ -128,7 +129,7 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
     return (
     <>
        <Button variant='light' onClick={() => handleShow(true)} >
-         {selectedFriend} 
+         {selectedFriend}
          <MdOutlineKeyboardArrowDown />
        </Button>
     
@@ -140,16 +141,16 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
 
             {usernameAndConversationId.length > 0 ? (
             usernameAndConversationId.map((item, index) => {
-                const username = Object.keys(item)[0];
-                            const conversationId = item[username];
-                            const buttonName = username !== 'null' ? username : `Friend ${index + 1}`;
+                    const username = Object.keys(item)[0];
+                    const conversationId = item[username];
+                    const buttonName = username !== 'null' ? username : `Friend ${index + 1}`;
             return (
               <Button
                 key={index}
                 variant="primary"
                 onClick={() => {
                     //handleFriendSelect(getButtonName(conversationId, index));
-                    handleFriendSelect(conversationId);
+                    handleFriendSelect(conversationId,buttonName);
                 }}
               >
                 {/* {conversationId} */}

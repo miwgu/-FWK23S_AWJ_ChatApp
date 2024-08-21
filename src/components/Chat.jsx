@@ -133,8 +133,6 @@ const Chat = ({ selectedConversationId }) => {
         }
       })
       setAllUsers(res.data)
-      console.log("AllUsers", allUsers)
-
     }catch (error){
       console.error('Error fetching users:', error);
 
