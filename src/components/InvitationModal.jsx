@@ -10,6 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { ToastContainer, toast } from 'react-toastify';
 import DOMPurify from 'dompurify';
 import './InvitationModal.css';
+import { useNavigate } from 'react-router-dom';
 
 const InvitationModal = () => {
     const [fullscreen, setFullscreen] = useState(true);
@@ -22,6 +23,7 @@ const InvitationModal = () => {
     const accessToken = localStorage.getItem('access_token');
     const loggedInUserId = Number(localStorage.getItem('userId'));
     const loggedInUsername = localStorage.getItem('username');
+    const navigate = useNavigate();
 
     const handleShow = (breakpoint) =>{
         setFullscreen(breakpoint);
@@ -128,7 +130,7 @@ const InvitationModal = () => {
                     <div>Send a invitation and your first mail to {selectedUser.username} successful!</div>
                 )
                  setTimeout (()=>{
-                    window.location.reload();// Need to refresh page to show new friend
+                    navigate('/chat');// Need to refresh(or Navigate again) page to show new friend
                  }, 3000)
                 
 
