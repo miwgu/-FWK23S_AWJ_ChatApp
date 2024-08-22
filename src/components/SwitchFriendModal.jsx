@@ -5,8 +5,9 @@ import Modal from 'react-bootstrap/Modal';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import authService from '../utils/authService';
 import eventService from '../utils/eventService';
+import './SwitchFriendModal.css';
 
-const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConversationId}) => {
+const SwitchFriendModal = ({selectedFriend, setSelectedFriend, setSelectedConversationId}) => {
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
     const [conversationIds, setConversationIds] = useState([]);
@@ -128,9 +129,9 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
 
     return (
     <>
-        <Button variant="light" onClick={() => handleShow(true)} style={{ color: '#f5f5f5', backgroundColor: 'transparent', border: 'none', display: 'inline-flex', alignItems: 'center' }}>
-            <p style={{ color: '#f5f5f5', margin: 0 }}>{selectedFriend}</p>
-            <MdOutlineKeyboardArrowDown style={{ color: '#f5f5f5', marginLeft: '8px' }} />
+        <Button variant="light" onClick={() => handleShow(true)} className="custom-button">
+            <p>{selectedFriend}</p>
+            <MdOutlineKeyboardArrowDown className="arrow-icon" />
         </Button> 
     
         <Modal show={show} fullscreen={fullscreen} onHide={handleClose}>

@@ -9,6 +9,7 @@ import eventService from '../utils/eventService';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ToastContainer, toast } from 'react-toastify';
 import DOMPurify from 'dompurify';
+import './InvitationModal.css';
 
 const InvitationModal = () => {
     const [fullscreen, setFullscreen] = useState(true);
@@ -160,7 +161,7 @@ const InvitationModal = () => {
 
   return (
     <>
-       <Button variant='light' onClick={() => handleShow(true)}  style={{ color: '#f5f5f5', backgroundColor: 'transparent', border: 'none', display: 'inline-flex', alignItems: 'center' }} >
+       <Button variant='light' onClick={() => handleShow(true)}  className='custom-button-inv' >
           <RiSendPlane2Line />
        </Button>
     
