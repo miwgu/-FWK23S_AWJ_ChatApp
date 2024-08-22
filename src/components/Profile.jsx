@@ -230,7 +230,7 @@ const Profile = () => {
                  <Dropdown.Item key ={index} onClick={() => handleAvatarSelect(avatarUrl)}>
                      <img
                      src={avatarUrl}
-                     alt={`avatar-¤{index}`}
+                     alt={`avatar-${index}`}
                      style={{ width: '30px', height: '30px', marginRight: '10px' }}
                      />
                       Avatar {index + 1}

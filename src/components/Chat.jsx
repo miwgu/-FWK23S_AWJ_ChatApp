@@ -11,6 +11,7 @@ import eventService from '../utils/eventService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DOMPurify from 'dompurify';
+import { useNavigate } from 'react-router-dom';
 
 
 const Chat = ({ selectedConversationId }) => {
