@@ -52,7 +52,7 @@ const Login = () => {
    })
    .then(res=> {
      const accessToken = res.data.token; 
-     console.log('Generate token Login successful!:', accessToken);
+     console.log('Generate token Login successful!');
 
      localStorage.setItem('access_token', accessToken);
 
