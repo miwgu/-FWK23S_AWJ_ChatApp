@@ -47,6 +47,11 @@ function App() {
         </Route>
         
       </Routes>
+
+      {/* Button to test Sentry error capturing */}
+      <button onClick={() => methodDoesNotExist()}>
+          Break the world
+        </button>
       </Router>
     </>
   )
