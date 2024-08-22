@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
-import { Container, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import {Link, useNavigate} from 'react-router-dom';
 import { PiTrashDuotone } from "react-icons/pi";
 import { IoMdSend } from "react-icons/io";
@@ -11,7 +11,7 @@ import eventService from '../utils/eventService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DOMPurify from 'dompurify';
-import SwitchFriendModal from './SwitchFriendModal'; 
+
 
 const Chat = ({ selectedConversationId }) => {
 
@@ -66,7 +66,7 @@ const Chat = ({ selectedConversationId }) => {
 
   // Trigger getMessages when selectedConversationId changes
   useEffect(() => {
-    console.log("Selected ConversationId:", selectedConversationId);
+    console.log('Chat',"Selected ConversationId:", selectedConversationId);
     getMessages();
     getAllUsers();
   }, [selectedConversationId]);
@@ -108,7 +108,7 @@ const Chat = ({ selectedConversationId }) => {
       }));
 
       setMessages(messagesWithIntIds);
-      console.log('Fetched messages',messagesWithIntIds);
+      console.log('Chat','Fetched messages',messagesWithIntIds);
     } else {
 
       setMessages([]);

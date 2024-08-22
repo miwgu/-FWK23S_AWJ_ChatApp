@@ -8,6 +8,22 @@ import Register from './components/Register'
 import SideNav from './components/nav/SideNav'
 import ProtectedRoute from './utils/ProtectedRoute';
 import './App.css'
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+  dsn: "https://d2c5e9738b2f2b700539c69101d3a2de@o4507821036339200.ingest.de.sentry.io/4507821042434128",
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration(),
+  ],
+  // Tracing
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+  tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 function App() {
   const [selectedConversationId, setSelectedConversationId] = useState(null);

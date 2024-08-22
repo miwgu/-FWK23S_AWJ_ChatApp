@@ -70,7 +70,6 @@ const Profile = () => {
  
     const handleUpdate =(e) =>{
      e.preventDefault();
-     console.log('Try form update');
  
      let hasErrors =false;
      let formErrors = {};
@@ -175,46 +174,7 @@ const Profile = () => {
      });
     };
 
-    /* const handleDelete =async () =>{
-
-      const loggedInUserId= Number(localStorage.getItem('userId'));
-
-     try{
-      const accessToken = localStorage.getItem('access_token');
-      await axios.delete(`${import.meta.env.VITE_RAILWAY_URL}/users/${loggedInUserId}` ,{
-      headers :{
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-     
-      console.log("Delete account successful!")
-      handleLogout();
-      
-     }catch (error){
-      console.error('Error deleting user´s account:', error);
-      toast.error(
-        <div>
-          <strong>Error deleting user´s account!</strong><br/>
-          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error.response ? error.response.data : error.message) }}>
-          </div>
-        </div>
-        );
-
-     }
-
-    } 
-
-    const handleLogout =() =>{
-      authService.signOut(()=>{
-          eventService.triggerLogout();// // Trigger logout event
-          //remove all items from localStrage 
-          localStorage.clear();
-          navigate('/login')
-      })
-  };
-  */
-
-    const handleEditClick = () =>{
+     const handleEditClick = () =>{
         setIsEditMode(true)
     }
 

@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Register.css'
 
 /**
- * npm i react-cookie axios dompurify  react-toastify
+ * npm i react-cookie axios dompurify  react-toastify loglevel  npm install --save @sentry/react
  * 
  */
 
@@ -50,7 +50,7 @@ const Register = () => {
    }
 
    useEffect(()=>{
-    console.log('Fetching CSRF token...');
+ 
     axios.patch(import.meta.env.VITE_RAILWAY_URL + '/csrf')
     .then(res =>{
       const token = res.data.csrfToken;
@@ -61,7 +61,7 @@ const Register = () => {
         sameSite: 'Strict', // security for cookie: Prevent cross-site request forgery
         httpOnly: false // I cannot change true because I need to access csrftoken in JavaScript (for sending login requests)
       });
-      console.log('CSRF token set:', token);
+      console.log('CSRF token set');
     })
     .catch(error=>{
       console.error('Error fetching CSRF token!:', error);
@@ -70,8 +70,7 @@ const Register = () => {
 
 
    const handleSubmit =(e) =>{
-    e.preventDefault();
-    console.log('Try form submitted');
+    e.preventDefault();;
 
     let hasErrors =false;
     let formErrors = {};

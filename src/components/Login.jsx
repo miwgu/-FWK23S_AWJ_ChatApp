@@ -17,7 +17,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
-    console.log('Fetching CSRF token...');
 
     axios.patch(import.meta.env.VITE_RAILWAY_URL + '/csrf')
     .then(res => {
@@ -31,7 +30,7 @@ const Login = () => {
         httpOnly: false // I cannot change true because I need to access csrftoken in JavaScript (for sending login requests)
       });
 
-      console.log('CSRF token set:', token);
+      console.log('CSRF token set');
     })
     .catch(error => {
       console.error('Error fetching CSRF token:', error);

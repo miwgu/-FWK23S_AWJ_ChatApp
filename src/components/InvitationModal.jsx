@@ -56,9 +56,9 @@ const InvitationModal = () => {
           const usersWithoutLoggedInU =  res.data.filter((user)=> user.userId !== loggedInUserId )
           setAllUsers(usersWithoutLoggedInU)
           setFilteredUsers(usersWithoutLoggedInU); // Initially show all users without loggedinUser
-          console.log("Filtered users",filteredUsers)
+          console.log("Users Without LoggedIn User",usersWithoutLoggedInU)
         }catch (error){
-          console.error('Error fetching users:', error);
+          console.log('Error fetching users:', error);
           if(error.response && error.response.status === 403){
             handleLogout();
         }
@@ -118,7 +118,7 @@ const InvitationModal = () => {
                         },
                     }
                 );
-                console.log ('Send a firstmail successful!:', messageRes.data)
+               console.log ('Send a firstmail successful!:', messageRes.data)
                 
                 //close modal
                 handleClose()
@@ -132,7 +132,7 @@ const InvitationModal = () => {
                 
 
             } catch (error) {
-                console.error('Error sending the first message!:', error);
+                conole.error('Error sending the first message!:', error);
                 toast.error(
                 <div>
                     <strong>Error sending the first message!</strong><br/>
