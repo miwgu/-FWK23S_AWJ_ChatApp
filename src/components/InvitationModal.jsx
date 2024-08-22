@@ -124,7 +124,7 @@ const InvitationModal = () => {
                 handleClose()
 
                 toast.success(
-                    <div>Send a invitation and your first mail to ${selectedUser.username} successful!</div>
+                    <div>Send a invitation and your first mail to {selectedUser.username} successful!</div>
                 )
                  setTimeout (()=>{
                     window.location.reload();// Need to refresh page to show new friend
@@ -160,7 +160,7 @@ const InvitationModal = () => {
 
   return (
     <>
-       <Button variant='light' onClick={() => handleShow(true)} >
+       <Button variant='light' onClick={() => handleShow(true)}  style={{ color: '#f5f5f5', backgroundColor: 'transparent', border: 'none', display: 'inline-flex', alignItems: 'center' }} >
           <RiSendPlane2Line />
        </Button>
     

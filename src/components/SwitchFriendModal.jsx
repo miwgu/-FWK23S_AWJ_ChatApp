@@ -128,10 +128,10 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend,setSelectedConvers
 
     return (
     <>
-       <Button variant='light' onClick={() => handleShow(true)} >
-         {selectedFriend}
-         <MdOutlineKeyboardArrowDown />
-       </Button>
+        <Button variant="light" onClick={() => handleShow(true)} style={{ color: '#f5f5f5', backgroundColor: 'transparent', border: 'none', display: 'inline-flex', alignItems: 'center' }}>
+            <p style={{ color: '#f5f5f5', margin: 0 }}>{selectedFriend}</p>
+            <MdOutlineKeyboardArrowDown style={{ color: '#f5f5f5', marginLeft: '8px' }} />
+        </Button> 
     
         <Modal show={show} fullscreen={fullscreen} onHide={handleClose}>
             <Modal.Header closeButton>

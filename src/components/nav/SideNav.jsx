@@ -28,7 +28,7 @@ const SideNav = ({ selectedConversationId, setSelectedConversationId }) => {
 
     //const [fullscreen, setFullscreen] = useState(true);
     //const [show, setShow] = useState(false);
-    const [selectedFriend, setSelectedFriend] = useState('Choose a friend');
+    const [selectedFriend, setSelectedFriend] = useState('Friends');
     //const [selectedConversationId, setSelectedConversationId] = useState(null); 
     
     const navigate = useNavigate();

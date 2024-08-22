@@ -142,7 +142,7 @@
   }
 }
 
-/* Media Query for very small screens (e.g., phones below 380px) */
+/* for very small screens (phones below 380px) */
 @media only screen and (max-width: 380px) {
   .message-input {
     max-width: 100%; /* Ensure full width on small devices */
