@@ -11,7 +11,7 @@ import './App.css'
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: "https://d2c5e9738b2f2b700539c69101d3a2de@o4507821036339200.ingest.de.sentry.io/4507821042434128",
+  dsn: import.meta.env.VITE_SENTRY_DSN,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
