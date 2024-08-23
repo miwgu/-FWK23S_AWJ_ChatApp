@@ -18,45 +18,6 @@ const Chat = ({ selectedConversationId }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [allUsers, setAllUsers] = useState([]); // To stor alluser to show Avatar
-  //const [selectedConversationId, setSelectedConversationId] = useState(null);
-  /* const [fakeChat] = useState([
-    {
-      id:1,
-      userId: 0,
-      text: "Hej Det är jag. Vad gör du?",
-      createdAt: "2024-08-15T11:19:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=4",
-      username: "Oskar",
-      conversationId: null
-    },
-    { 
-      id:2,
-      userId: 0,
-      text: "Det är Oskar",
-      createdAt: "2024-08-15T11:20:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=4",
-      username: "Oskar",
-      conversationId: null
-    },
-    { 
-      id:3,
-      userId: 0,
-      text: "Är du inte där? hej....!",
-      createdAt: "2024-08-15T11:21:56.240Z",
-      avatar: "https://i.pravatar.cc/100?img=4",
-      username: "Oskar",
-      conversationId: null
-    },
-    { 
-      id:4,
-      userId: 0,
-      text: "Hej! Hur är det med dig?",
-      createdAt: "2024-08-16T12:30:04.000Z",
-      avatar: "https://i.pravatar.cc/100?img=4",
-      username: "Oskar",
-      conversationId: null
-    }
-  ]); */
 
   const navigate = useNavigate();
   const messagesEndRef = useRef(null);// Reference to the bottom of the chat

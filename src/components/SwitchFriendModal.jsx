@@ -44,10 +44,6 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend, setSelectedConver
         })
     };
 
-     /* const getButtonName = (conversationId, index) => {
-        return inviteMap[conversationId] || `Friend ${index + 1}`;
-      }; */ 
-
     useEffect (()=>{
 
         const fetchMessagesAndInvites = async () => {
@@ -154,8 +150,6 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend, setSelectedConver
                     handleFriendSelect(conversationId,buttonName);
                 }}
               >
-                {/* {conversationId} */}
-                {/* {getButtonName(conversationId, index)} */}
                 {buttonName}
               </Button>
             );
@@ -163,11 +157,6 @@ const SwitchFriendModal = ({selectedFriend, setSelectedFriend, setSelectedConver
           ) : (
             <p>No conversations available</p>
           )}
-            
-            
-               {/*  <Button variant="primary" onClick={() => handleFriendSelect('Oskar')}>Oskar</Button>
-                <Button variant="primary" onClick={() => handleFriendSelect('Friend 2')}>Friend 2</Button>
-                <Button variant="primary" onClick={() => handleFriendSelect('Friend 3')}>Friend 3</Button> */}
             </Modal.Body>
         </Modal>
     </>
