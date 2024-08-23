@@ -25,7 +25,7 @@ https://chatapp-mi.netlify.app/
 ## Logic of Chat with Friend
 There is no logic for group-chat in frontend (It is possible to do group chat using this backend)
 Chat is just one by one with conversationId
-Even if the friend deleted his/ har accont loggedIn user can send message to the user which deleted own account (There is no logic to delete conversationId in the backend)
+Even if the friend deleted his/ har accont loggedIn user can send message to the user who deleted own account (There is no logic to delete conversationId in the backend)
 - coversationId: Login user can generate conversionId when send invitation to other user (Friend)
 
 ### Invite a user(Friend) to chat
