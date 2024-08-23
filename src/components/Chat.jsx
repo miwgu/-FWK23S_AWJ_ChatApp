@@ -75,13 +75,13 @@ const Chat = ({ selectedConversationId }) => {
     //--------Here to refresh this page to show loggind user name and avatar-----------
     // Check if the page has been refreshed before 
     // Delete hasRefreshed when user logout 
-/*     const hasRefreshed = localStorage.getItem('hasRefreshed');
+    const hasRefreshed = localStorage.getItem('hasRefreshed');
     
     if (!hasRefreshed) {
       // If not, reload the page
       localStorage.setItem('hasRefreshed', 'true');
       window.location.reload();
-    } */
+    }
     //-------refresh page end-------------
 
     getMessages();
