@@ -279,7 +279,6 @@ const Profile = () => {
              </div>
            </Form>
            </div>
-           <ToastContainer />
            <DeleteModal
              show={modalShow}
              onHide={() => setModalShow(false)}

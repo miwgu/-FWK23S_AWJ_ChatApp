@@ -19,6 +19,7 @@ const InvitationModal = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [isSending, setIsSending] = useState(false);
 
     const accessToken = localStorage.getItem('access_token');
     const loggedInUserId = Number(localStorage.getItem('userId'));
@@ -80,7 +81,7 @@ const InvitationModal = () => {
         }
       }
 
-      const handleSearchChange = () =>{
+      const handleSearchChange = (event) =>{
         setSearchTerm(event.target.value);
         filterUsers(event.target.value);
       }
@@ -91,7 +92,8 @@ const InvitationModal = () => {
 
       const handleSendInvitation =async() =>{
 
-         if(!selectedUser) return;
+         if(!selectedUser || isSending) return;
+         setIsSending(true);
 
             try {
                 const newConversationId = crypto.randomUUID();
@@ -156,6 +158,8 @@ const InvitationModal = () => {
         </div>
         );
 
+    } finally {
+        setIsSending(false);
     }
 
 
@@ -222,7 +226,6 @@ const InvitationModal = () => {
 
             </Modal.Body>
         </Modal>
-        <ToastContainer />
     </>
   )
 }

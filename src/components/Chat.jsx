@@ -237,7 +237,6 @@ const Chat = ({ selectedConversationId }) => {
             className='send-icon'
             onClick={handleSendMessage} />
       </div>
-      <ToastContainer />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import Register from './components/Register'
 import SideNav from './components/nav/SideNav'
 import ProtectedRoute from './utils/ProtectedRoute';
 import './App.css'
+import { ToastContainer } from 'react-toastify';
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
@@ -47,6 +48,9 @@ function App() {
         </Route>
         
       </Routes>
+
+      {/* ToastContainer to handle toast notifications */}
+      <ToastContainer />
 
       {/* Button to test Sentry error capturing */}
         <button onClick={() => methodDoesNotExist()}>
