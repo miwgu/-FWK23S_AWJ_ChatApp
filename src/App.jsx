@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login'
 import Chat from './components/Chat'
 import Profile from './components/Profile';
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-    <Router>
+    <HashRouter>
       <SideNav 
        selectedConversationId={selectedConversationId}
        setSelectedConversationId={setSelectedConversationId}
@@ -52,7 +52,7 @@ function App() {
         <button onClick={() => methodDoesNotExist()}>
           Break the world
         </button> 
-      </Router>
+      </HashRouter>
     </>
   )
 }
