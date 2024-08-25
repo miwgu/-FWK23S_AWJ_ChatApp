@@ -30,7 +30,7 @@ function App() {
 
   return (
     <>
-    <HashRouter>
+    <Router>
       <SideNav 
        selectedConversationId={selectedConversationId}
        setSelectedConversationId={setSelectedConversationId}
@@ -52,7 +52,7 @@ function App() {
         <button onClick={() => methodDoesNotExist()}>
           Break the world
         </button> 
-      </HashRouter>
+      </Router>
     </>
   )
 }
