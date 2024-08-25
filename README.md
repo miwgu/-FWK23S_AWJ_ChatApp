@@ -14,6 +14,7 @@ npm install --save @sentry/react
 ### Deploy
 https://chatapp-mi.netlify.app/
 *Unstable sometimes you can get 404 but you go back to this URL and click link to a page where you want
+->Fix with _rederects(Netlify setting) and HashRouter
 
 ## Log in 
 - user1 Mi  password:1
